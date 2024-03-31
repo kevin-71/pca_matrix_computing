@@ -4,15 +4,15 @@ opts = spreadsheetImportOptions("NumVariables", 10);
 % Specify sheet and range
 opts.DataRange = "A2:J30";
 
-n = 29; % nb individuals
-p = 9; % nb variables
-
 % Specify column names and types
 opts.VariableNames = ["Countries", "ME_CO2", "AP", "TMFS", "POP_COSTAL", "MPA", "RES_COAST", "TAX", "E_INV", "ENERGY"];
 opts.VariableTypes = ["string", "double", "double", "double", "double", "double", "double", "double", "double", "double"];
 
 data = readtable("Data_initial_Matlab.xlsx", opts);
 country_names = data(:,1);
+
+n = 29; % nb individuals
+p = 9; % nb variables
 
 % mean of each column
 moy = mean(data{:, 2:end});
@@ -46,7 +46,7 @@ R
 [V,D] = eig(R); % Calculating eigenvalues and eigenvectors, V : eigenvectors ; D : eigenvalues 
 eigenvalues = diag(D) % Because D is the eigenvalues in the diagonal matrix form, we extract the diagonal
 
-writematrix(eigen, "eigenvalues.xlsx")
+writematrix(eigenvalues, "eigenvalues.xlsx")
 
 
 % Principal components matrix
@@ -59,12 +59,3 @@ R_inverse = diag(1 ./ sqrt(diag(R))); % calcuate R^-1/2
 S = XS' * F * R_inverse;
 S
 writematrix(S, "saturation_matrix_.xlsx")
-
-
-
-%coordinates of variables in the new basis
-% theses coefficients are equal to correlations between variables and factors
- 
-%Main Components
-%qlt = coord(i, a)^2/sum(coord^2)(i); %quality of individual for axis a
-
